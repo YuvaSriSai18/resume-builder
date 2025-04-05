@@ -12,7 +12,6 @@ import { StepperPanel } from "primereact/stepperpanel";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { Chips, ChipsChangeEvent } from "primereact/chips";
 
 export default function CreateResume() {
   const stepperRef = useRef<any>(null);
