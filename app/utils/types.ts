@@ -1,15 +1,17 @@
-interface Skills {
+export interface Skills {
   technical: string[];
   softSkills: string[];
 }
-interface WorkExperience {
+
+export interface WorkExperience {
   jobTitle: string;
   companyName: string;
   startDate: string;
   endDate: string;
   responsibilities: string;
 }
-interface Education {
+
+export interface Education {
   degreeName: string;
   institution: string;
   location: string;
@@ -17,35 +19,41 @@ interface Education {
   endYear: string;
   cgpa: number;
 }
-interface Project {
+
+export interface Project {
   title: string;
   description: string;
   techStack: string[];
   role: string;
   demoLink: string;
 }
-interface Certificate {
+
+export interface Certificate {
   name: string;
   link: string;
 }
-interface achievement {
+
+export interface Achievement {
   title: string;
   description: string;
 }
-interface Position {
+
+export interface Position {
   position: string;
   organization: string;
   duration: string;
   contributions: string;
 }
-interface publication {
+
+export interface Publication {
   title: string;
   conference: string;
   authors: string;
   date: string;
   link: string;
 }
-interface ResumeData {
+
+export interface ResumeData {
   name: string;
   email: string;
   mobile: string;
@@ -59,9 +67,19 @@ interface ResumeData {
   workExperience: WorkExperience[];
   projects: Project[];
   certifications: Certificate[];
-  achievements: achievement[];
+  achievements: Achievement[];
   positionOfResponsibility: Position[];
-  publications: publication[];
+  publications: Publication[];
 }
 
-export default ResumeData;
+export type ResumeArrayFields = {
+  education: Education;
+  workExperience: WorkExperience;
+  projects: Project;
+  certifications: Certificate;
+  achievements: Achievement;
+  positionOfResponsibility: Position;
+  publications: Publication;
+};
+
+export type ResumeArrayKeys = keyof ResumeArrayFields;

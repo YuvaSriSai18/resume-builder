@@ -6,15 +6,16 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
-import ResumeData from "../utils/types";
-import { Stepper } from "primereact/stepper";
+import {ResumeArrayFields, ResumeArrayKeys, ResumeData } from "../utils/types";
+import { Stepper } from 'primereact/stepper';
+// import type { RefObject } from 'react';
 import { StepperPanel } from "primereact/stepperpanel";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 
 export default function CreateResume() {
-  const stepperRef = useRef<any>(null);
+const stepperRef = useRef<Stepper | null>(null);
 
   const [formData, setFormData] = useState<ResumeData>({
     name: "",
@@ -65,15 +66,17 @@ export default function CreateResume() {
       [key]: value,
     }));
   };
-  const handleArrayChange = (
-    section: keyof ResumeData,
+  const handleArrayChange = <
+    T extends ResumeArrayKeys
+  >(
+    section: T,
     index: number,
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
 
     setFormData((prev) => {
-      const updatedSection = [...(prev[section] as any[])];
+      const updatedSection = [...(prev[section] as ResumeArrayFields[T][])];
       updatedSection[index] = {
         ...updatedSection[index],
         [name]: value,
@@ -85,6 +88,7 @@ export default function CreateResume() {
       };
     });
   };
+
   const addEducation = () => {
     setFormData((prev) => ({
       ...prev,
