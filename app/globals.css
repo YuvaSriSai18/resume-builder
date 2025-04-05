@@ -24,3 +24,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-ubuntu), sans-serif;
 }
+
+::-webkit-scrollbar{
+  display: none;
+}
