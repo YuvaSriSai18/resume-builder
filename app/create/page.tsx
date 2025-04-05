@@ -1,22 +1,22 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
-import {ResumeArrayFields, ResumeArrayKeys, ResumeData } from "../utils/types";
-import { Stepper } from 'primereact/stepper';
-// import type { RefObject } from 'react';
+import { ResumeArrayFields, ResumeArrayKeys, ResumeData } from "../utils/types";
+import { Stepper } from "primereact/stepper";
 import { StepperPanel } from "primereact/stepperpanel";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
+import { useRouter } from "next/navigation";
 
 export default function CreateResume() {
-const stepperRef = useRef<Stepper | null>(null);
-
+  const stepperRef = useRef<Stepper | null>(null);
+  const router = useRouter();
   const [formData, setFormData] = useState<ResumeData>({
     name: "",
     email: "",
@@ -56,6 +56,17 @@ const stepperRef = useRef<Stepper | null>(null);
     publications: [],
   });
 
+  useEffect(() => {
+    try {
+      const data = localStorage.getItem("resumeData");
+      if (data) {
+        setFormData(JSON.parse(data));
+      }
+    } catch (error) {
+      console.error("Failed to parse resume data", error);
+    }
+  }, []);
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: keyof ResumeData
@@ -66,9 +77,7 @@ const stepperRef = useRef<Stepper | null>(null);
       [key]: value,
     }));
   };
-  const handleArrayChange = <
-    T extends ResumeArrayKeys
-  >(
+  const handleArrayChange = <T extends ResumeArrayKeys>(
     section: T,
     index: number,
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -239,6 +248,11 @@ const stepperRef = useRef<Stepper | null>(null);
     });
   };
 
+  const submitResume = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem("resumeData", JSON.stringify(formData));
+    router.push("/create/viewpdf");
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f7fa] to-[#c3cfe2] p-6">
       <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-xl">
@@ -938,7 +952,7 @@ const stepperRef = useRef<Stepper | null>(null);
                 label="Finish"
                 icon="pi pi-check"
                 className="p-button-success"
-                onClick={() => console.log("All Steps Done", formData)}
+                onClick={submitResume}
               />
             </div>
           </StepperPanel>
